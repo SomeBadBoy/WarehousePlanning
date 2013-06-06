@@ -1,0 +1,26 @@
+25
+Marry a Rich Man	Romance	5
+Ancient furnace	Local	4
+The Warring States cyclone records	Martial arts	10
+The greatest hero in the world Fang Shiyu	Martial arts	8
+The spirit of Zhuang	Martial arts	5
+On the other side of her	Foreign novels	3
+As blood flows	Foreign novels	7
+A family of scholar outlaws of the marsh	Four great classics	50
+Journey to the West ( New Edition)	Four great classics	50
+Robinson Crusoe	World famous	20
+The classics of world literature: Twenty Thousand Leagues Under the sea	World famous	20
+The contemporary hero	World famous	20
+The count of Monte Cristo ( volumes)	World famous	16
+Gulliver's Travels	World famous	36
+Oliver Twist	World famous	45
+Elegance	Sociology	25
+I am a teacher	Sociology	9
+Yu Jie	Female Novels	8
+Seventh: Bloodline	Magic	39
+The city 's tale 3	Magic	26
+Song: Historical Novels	Historical novel	33
+Hell Island	Science fiction	23
+Reserve officer	Military Novels	10
+Military salute	Military Novels	10
+Every night there is a strange story	Thriller	21
