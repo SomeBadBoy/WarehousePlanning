@@ -5,12 +5,15 @@
 #include <QGraphicsRectItem>
 #include <QFileDialog>
 #include <QMessageBox>
+#include "connectdb.h"
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+	connectdb condialog;//获取数据库登陆信息
+	condialog.exec();
     house=new conhouse;
     shelf=new conshelf;
     item=new conitem;
@@ -145,39 +148,41 @@ void MainWindow::on_pathButton_clicked()
 #endif
 
 
-void MainWindow::on_initHouseButton_clicked()
+void MainWindow::on_initHouseButton_clicked()//初始化仓库
 {
+
+
     QVector<int > killer;
-    foreach (const storeitem u,item->view)killer.push_back(u.id);
+    foreach (const storeitem u,item->view)killer.push_back(u.id);//删除所有货物信息
     for (int i=0;i<killer.size();i++)item->delete_item(killer[i]);
     killer.clear();
 
-    foreach (const storeshelf u,shelf->view)killer.push_back(u.id);
+    foreach (const storeshelf u,shelf->view)killer.push_back(u.id);//删除所有货架信息
     for (int i=0;i<killer.size();i++)shelf->delete_shelf(killer[i]);
     house->delete_house();
 }
 
-void MainWindow::on_initInputButton_clicked()
+void MainWindow::on_initInputButton_clicked()//入库初始化表项
 {
     ui->inputTable->setColumnCount(0);
     ui->inputTable->setRowCount(0);
 
-    ui->inputTable->setColumnCount(8);
-    ui->inputTable->setRowCount(18);
+    ui->inputTable->setColumnCount(8);//设置列数
+    ui->inputTable->setRowCount(18);//设置行数
     QStringList headers;
     headers<<"Name"<<"Category"<<"Amount"<<"Shelf ID"<<"Direction"<<"Colum"<<"Layer"<<"Description";
     ui->inputTable->setHorizontalHeaderLabels(headers);
     for (int i=0;i<18;i++){
         for (int j=0;j<8;j++)
-            ui->inputTable->setItem(i,j,new QTableWidgetItem(QString()));
+            ui->inputTable->setItem(i,j,new QTableWidgetItem(QString()));//对表项数据进行输入
     }
 }
 
-void MainWindow::on_finInputButton_clicked()
+void MainWindow::on_finInputButton_clicked()//表项货物入库
 {
 
     for (int i=0;i<ui->inputTable->rowCount();i++)
-        if (ui->inputTable->item(i,0)->text().size()>0){
+        if (ui->inputTable->item(i,0)->text().size()>0){//判断表项是否不为空
             storeitem tmp;
             tmp.name=ui->inputTable->item(i,0)->text();
             tmp.category=ui->inputTable->item(i,1)->text();
@@ -190,19 +195,19 @@ void MainWindow::on_finInputButton_clicked()
             item->insert_item(tmp);
             //shelf->view[tmp.belong_to].node.push_back(tmp.id);
         }
-    ui->inputTable->setColumnCount(0);
+    ui->inputTable->setColumnCount(0);//重设表项
     ui->inputTable->setRowCount(0);
 }
 #include <QDebug>
-void MainWindow::on_massInputButton_clicked()
+void MainWindow::on_massInputButton_clicked()//批量入库
 {
-    QString filename = QFileDialog::getOpenFileName();
+    QString filename = QFileDialog::getOpenFileName();//选择批量输入文件
     QFileInfo info(filename);
     if (info.exists() && info.isFile()) {
         int m;
         FILE *fp=fopen(filename.toStdString().c_str(),"r");
         //ifstream fin(filename.toStdString().c_str());
-        fscanf(fp,"%d\n",&m);
+        fscanf(fp,"%d\n",&m);//从fp中读入整数，存入m中
         //qDebug()<<"m="<<m;
         storeitem tmp;
         char name[200],category[200],description[200];
@@ -223,13 +228,13 @@ void MainWindow::on_massInputButton_clicked()
     }
 }
 
-void MainWindow::on_initOutputButton_clicked()
+void MainWindow::on_initOutputButton_clicked()//出库初始化表项
 {
     ui->outputTable->setColumnCount(0);
     ui->outputTable->setRowCount(0);
 
-    ui->outputTable->setColumnCount(3);
-    ui->outputTable->setRowCount(14);
+    ui->outputTable->setColumnCount(3);//设列数
+    ui->outputTable->setRowCount(14);//设行数
     QStringList headers;
     headers<<"Name"<<"Category"<<"Amount";
     ui->outputTable->setHorizontalHeaderLabels(headers);
@@ -239,7 +244,7 @@ void MainWindow::on_initOutputButton_clicked()
     }
 }
 
-void MainWindow::on_pathButton_clicked()
+void MainWindow::on_pathButton_clicked()//显示路径
 {
     QVector<QPair<QPair<QString,QString>,int> > keyword;
     ///qDebug()<<ui->outputTable->rowCount();
@@ -262,7 +267,7 @@ void MainWindow::on_pathButton_clicked()
     }
 }
 
-void MainWindow::on_finOutputButton_clicked()
+void MainWindow::on_finOutputButton_clicked()//表项货物出库
 {
     ui->outputTable->setColumnCount(0);
     ui->outputTable->setRowCount(0);
@@ -270,7 +275,7 @@ void MainWindow::on_finOutputButton_clicked()
     return ;
 }
 
-void MainWindow::on_massOutputButton_clicked()
+void MainWindow::on_massOutputButton_clicked()//批量出库
 {
 
     QVector<QPair<QPair<QString,QString>,int> > keyword;
@@ -302,7 +307,7 @@ void MainWindow::on_massOutputButton_clicked()
 
 QString direct[4]={"North","South","East","West"};
 
-void MainWindow::on_searchButton_clicked()
+void MainWindow::on_searchButton_clicked()//检索货物
 {
     ui->searchTable->setColumnCount(0);
     ui->searchTable->setRowCount(0);

@@ -1,5 +1,5 @@
 #include "dbms.h"
-
+extern char username[20],password[20],dbname[20];
 DBMS::DBMS(){
     this->initialize_sql();
     this->connect_sql();
@@ -14,8 +14,8 @@ int DBMS::initialize_sql(){
 }
 
 int DBMS::connect_sql(){
-    return mysql_real_connect(&mysql_conn, "localhost", "root","mysql",
-                              "store", MYSQL_PORT, NULL, 0)?0:1;
+	return mysql_real_connect(&mysql_conn, "localhost", username, password,
+			dbname, MYSQL_PORT, NULL, 0)?0:1;
 }
 
 int DBMS::disconnet_sql(){
