@@ -81,5 +81,22 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>housedialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>481</x>
+     <y>395</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>514</x>
+     <y>405</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

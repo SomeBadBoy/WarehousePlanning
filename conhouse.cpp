@@ -1,5 +1,5 @@
 #include "conhouse.h"
-
+//从数据库中查找仓库数据（house Table）来构造一个house类
 conhouse::conhouse()
 {
     house.id=-1;
@@ -19,7 +19,8 @@ conhouse::conhouse()
         //qDebug()<<house.id<<endl;
     }
 }
-
+////在从数据库读取数据建立仓库失败后向数据库中插入输入的仓库数据，然后用该数据建立仓库。
+//数据库直接建立成功后id为正，进入该函数后不执行该函数的功能。
 void conhouse::insert_house(storehouse& u){
     if (house.id>0)return ;
     char cmd[400];
@@ -36,7 +37,7 @@ void conhouse::insert_house(storehouse& u){
     house=u;
     return ;
 }
-
+//若有仓库，则删除该仓库以及它在数据库中的数据。
 void conhouse::delete_house(){
     if (house.id<0)return;
     char cmd[400];
