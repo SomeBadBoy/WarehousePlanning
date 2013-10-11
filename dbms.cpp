@@ -4,6 +4,7 @@ extern char username[20],password[20],dbname[20];
 DBMS::DBMS(){
     this->initialize_sql();
     this->connect_sql();
+	
 }
 
 DBMS::~DBMS(){

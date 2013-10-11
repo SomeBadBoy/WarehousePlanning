@@ -3,8 +3,6 @@
 #include "housedialog.h"
 //#include <QDebug>
 #include <QMessageBox>
-//构造函数，需要传入一个QT的窗口基类指针，三个QT的单选按键类指针，conhouse,conshelf,conitem类的指针各一个，
-//结果是构造了一个保护数据与传入参数相关联（赋值操作），新建了画图区域和颜色。
 storescene::storescene(QWidget *parent, QRadioButton *button1, QRadioButton *button2,QRadioButton *button3, conhouse *hou, conshelf *she,conitem * it)
     :QGraphicsScene(parent)
 {
@@ -22,9 +20,8 @@ storescene::storescene(QWidget *parent, QRadioButton *button1, QRadioButton *but
     this->addItem(beg);
     this->setSceneRect(0,0,400,400);
 }
-//鼠标单击事件的各种处理
-void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{//鼠标左键按下
+
+void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event){//鼠标左键按下
     if (this->houseButton->isChecked()){
         curItem=new QGraphicsRectItem;
         addItem(curItem);
@@ -32,10 +29,7 @@ void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsScene::mousePressEvent(event);
         pressed=true;
 
-    }
-   //货架修改模式
-	else if (this->shelfButton->isChecked())
-	{//右键取消已建立的货架
+    }else if (this->shelfButton->isChecked()){
         if (event->button()==Qt::RightButton){
             storeshelf u;
             foreach( u,shelf->view){
@@ -50,7 +44,6 @@ void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 }
             }
             return ;
-			//左键建立货架
         }else {
             curItem=new QGraphicsRectItem;
             addItem(curItem);
@@ -58,7 +51,6 @@ void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             QGraphicsScene::mousePressEvent(event);
             pressed=true;
         }
-		//查询单选键选择时，查询每个货架是否包含鼠标点击的点，如果包含则显示该货架信息。
     }else if (this->queryButton->isChecked()){
         storeshelf u;
         foreach( u,shelf->view){
@@ -80,7 +72,7 @@ void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     return ;
 }
-//鼠标拖动事件
+
 void storescene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){//鼠标移动事件
     if (!pressed||(!this->houseButton->isChecked() && !this->shelfButton->isChecked())){
         event->ignore();
@@ -90,7 +82,7 @@ void storescene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){//鼠标移动事件
         QGraphicsScene::mouseMoveEvent(event);
     }
 }
-//鼠标释放事件
+
 void storescene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
      if (!pressed||(!this->houseButton && !this->shelfButton)){
          event->ignore();
@@ -98,7 +90,6 @@ void storescene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
          pressed=false;
          //storeshelf u;
          //qDebug()<<"go,";
-		 //对于每一个货架和新建货架进行碰撞检测，碰撞则删除新建货架
          foreach (const storeshelf &u, shelf->view.values()){
              if (curItem->collidesWithItem(u.figure)){//碰撞检测
                  delete curItem;
@@ -106,12 +97,12 @@ void storescene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
                  return ;
              }
          }
-//		 storehouse & kk=this->house->house;//增添了对house的碰撞检测
-//		 if (curItem->collidesWithItem(kk.figure)){
-//                 delete curItem;
-//                 event->ignore();
-//                 return ;
-//             }
+		 storehouse & kk=this->house->house;//增添了对house的碰撞检测
+		 if (curItem->collidesWithItem(kk.figure)){
+                 delete curItem;
+                 event->ignore();
+                 return ;
+             }
 
          //qDebug()<<"arrive!";
          shelfdialog dialog(curItem);
@@ -137,12 +128,12 @@ void storescene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
                  return ;
              }
          }
-//		 storehouse & kk = this->house->house;//增添了对house的碰撞检测
-//			if (curItem->collidesWithItem(kk.figure)){
-//				delete curItem;
-//				event->ignore();
-//				return ;
-//			}
+		 storehouse & kk = this->house->house;//增添了对house的碰撞检测
+         if (curItem->collidesWithItem(kk.figure)){
+				delete curItem;
+				event->ignore();
+				return ;
+			}
          housedialog dialog(curItem);
          if (dialog.exec()){
              //qDebug();

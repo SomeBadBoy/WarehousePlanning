@@ -1,6 +1,5 @@
 #include "conshelf.h"
 
-//conshelf的构造函数，从数据库中读取数据后建立conshelf类
 conshelf::conshelf()
 {
     char cmd[400];
@@ -25,7 +24,7 @@ conshelf::conshelf()
         }
     }
 }
-//将输入的货架数据存入数据库和从conshelf的view中。
+
 void conshelf::insert_shelf(storeshelf &u){
     char cmd[400];
     sprintf(cmd,"insert into shelf(name,belong_to,x,y,w,h,direc,col,layer,thin,description)values(\'%s\',%d,%d,%d,%d,%d,%d,%d,%d,%d,\'%s\')",
@@ -41,7 +40,7 @@ void conshelf::insert_shelf(storeshelf &u){
     view[u.id]=u;
     return ;
 }
-//从数据库和conshelf的view中删除所选id货架的信息。
+
 void conshelf::delete_shelf(int ID){
     char cmd[400];
 
@@ -51,7 +50,6 @@ void conshelf::delete_shelf(int ID){
     query(cmd);
     return ;
 }
-//根据货物所在方向确定货架前的取货地点坐标。
 Node conshelf::toNode(const storeitem & u,int id)
 {
     QRect shelf=view[u.belong_to].figure->rect().toRect();

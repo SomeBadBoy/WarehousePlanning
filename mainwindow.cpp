@@ -6,8 +6,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include "connectdb.h"
-#include "dbms.h"
-#include "mysql.h"
 using namespace std;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -152,14 +150,9 @@ void MainWindow::on_pathButton_clicked()
 
 void MainWindow::on_initHouseButton_clicked()//初始化仓库
 {
-//	conbill debug;
-//	debug.path->setVisible(false);
-//	bill->path->setVisible(false);
+
+
     QVector<int > killer;
-	if( bill )
-	{
-		bill->make_deal( shelf, item );//修复显示路径后点击初始化仓库，路径残留
-	}
     foreach (const storeitem u,item->view)killer.push_back(u.id);//删除所有货物信息
     for (int i=0;i<killer.size();i++)item->delete_item(killer[i]);
     killer.clear();
@@ -194,7 +187,7 @@ void MainWindow::on_finInputButton_clicked()//表项货物入库
             tmp.name=ui->inputTable->item(i,0)->text();
             tmp.category=ui->inputTable->item(i,1)->text();
             tmp.num=ui->inputTable->item(i,2)->text().toInt();
-            tmp.belong_to=ui->inputTable->item(i,3)->text().toInt();//入库shelfID会超出
+            tmp.belong_to=ui->inputTable->item(i,3)->text().toInt();
             tmp.x=ui->inputTable->item(i,4)->text().toInt();
             tmp.y=ui->inputTable->item(i,5)->text().toInt();
             tmp.z=ui->inputTable->item(i,6)->text().toInt();
@@ -231,9 +224,7 @@ void MainWindow::on_massInputButton_clicked()//批量入库
             tmp.description=QString(description);
             item->insert_item(tmp);
         }
-		QMessageBox::about( NULL,"Information", "Mass input succeed." );
         fclose(fp);
-		
     }
 }
 

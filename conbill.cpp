@@ -5,14 +5,13 @@
 #include <QQueue>
 //#include <QDebug>
 using namespace std;
-//构造函数，创建并设置了路线的属性
 conbill::conbill()
 {
     path=new QGraphicsPolygonItem;
     pathcolor=new QGraphicsColorizeEffect;
     path->setGraphicsEffect(pathcolor);
 }
-//找路
+
 void conbill::find_path(conshelf *shelf,conitem *item,QVector<QPair<QPair<QString,QString>,int> > &keyword ,int x,int y){
     decs=QVector<int>(item->view.size(),0);
    // for (int i=0;i<keyword.size();i++)
@@ -47,7 +46,7 @@ void conbill::find_path(conshelf *shelf,conitem *item,QVector<QPair<QPair<QStrin
     for (int i=0;i<keyword.size();i++)
         if (keyword[i].second>0){
             //qDebug()<<keyword[i].first.first<<keyword[i].first.second<<keyword[i].second;
-            QMessageBox::about(NULL, "Warning", "Not enough books.");
+            QMessageBox::information(NULL, "Warning", "Not enough books.", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
             return ;
         }
 
@@ -83,7 +82,7 @@ void conbill::find_path(conshelf *shelf,conitem *item,QVector<QPair<QPair<QStrin
                     break;
                 }
             if (ok==0){
-				double length=sqrt((double)((a[i].x-a[j].x)*(a[i].x-a[j].x)+(a[i].y-a[j].y)*(a[i].y-a[j].y)));
+                double length=sqrt((a[i].x-a[j].x)*(a[i].x-a[j].x)+(a[i].y-a[j].y)*(a[i].y-a[j].y));
                 a[i].e.push_back(QPair<int,double>(j,length));
                 a[j].e.push_back(QPair<int,double>(i,length));
             }
@@ -144,7 +143,6 @@ void conbill::find_path(conshelf *shelf,conitem *item,QVector<QPair<QPair<QStrin
 #endif
     a.clear();
 }
-//清除路径以外的数据
 void conbill::make_deal(conshelf *shelf,conitem *item){
     path->setVisible(false);
     foreach(const QGraphicsEllipseItem * p,point){
@@ -161,7 +159,7 @@ void conbill::make_deal(conshelf *shelf,conitem *item){
     }
     to_do.clear();
 }
-//批量出货
+
 void conbill::massOUT(conshelf *shelf,conitem *item,QVector<QPair<QPair<QString,QString>,int> > &keyword )
 {
 
@@ -192,5 +190,4 @@ void conbill::massOUT(conshelf *shelf,conitem *item,QVector<QPair<QPair<QString,
             return ;
         }
     make_deal(shelf,item);
-	QMessageBox::about(NULL, "Title", "Succeed to mass out.");
 }

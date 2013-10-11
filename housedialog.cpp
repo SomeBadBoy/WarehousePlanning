@@ -2,9 +2,7 @@
 #include "ui_housedialog.h"
 #include <qmessagebox.h>
 #include <QDebug>
-///本文件主要用于仓库界面的操作实现
 
-//构造函数
 housedialog::housedialog(QGraphicsRectItem *curItem ,QWidget *parent):
     QDialog(parent),
     ui(new Ui::housedialog)
@@ -16,7 +14,6 @@ housedialog::housedialog(QGraphicsRectItem *curItem ,QWidget *parent):
 housedialog::~housedialog(){
     delete ui;
 }
-
 void housedialog::reject()//修复cancel键无效bug
 {
 //	if(!QMessageBox::information(this,"Warning","Exit will lose any unsaved data, whether to quit",
@@ -32,7 +29,7 @@ void housedialog::accept()
     onAccepted();
     QDialog::accept();
 }
-//将输入的信息储存到housedialog类中
+
 bool housedialog::onAccepted()
 {
     now.name=ui->nameEdit->text();
