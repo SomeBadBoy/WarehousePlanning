@@ -21,7 +21,7 @@ storescene::storescene(QWidget *parent, QRadioButton *button1, QRadioButton *but
     this->setSceneRect(0,0,400,400);
 }
 
-void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event){
+void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event){//鼠标左键按下
     if (this->houseButton->isChecked()){
         curItem=new QGraphicsRectItem;
         addItem(curItem);
@@ -73,7 +73,7 @@ void storescene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     return ;
 }
 
-void storescene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
+void storescene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){//鼠标移动事件
     if (!pressed||(!this->houseButton->isChecked() && !this->shelfButton->isChecked())){
         event->ignore();
     }else {
@@ -91,12 +91,19 @@ void storescene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
          //storeshelf u;
          //qDebug()<<"go,";
          foreach (const storeshelf &u, shelf->view.values()){
-             if (curItem->collidesWithItem(u.figure)){
+             if (curItem->collidesWithItem(u.figure)){//碰撞检测
                  delete curItem;
                  event->ignore();
                  return ;
              }
          }
+		 storehouse & kk=this->house->house;//增添了对house的碰撞检测
+		 if (curItem->collidesWithItem(kk.figure)){
+                 delete curItem;
+                 event->ignore();
+                 return ;
+             }
+
          //qDebug()<<"arrive!";
          shelfdialog dialog(curItem);
          if (dialog.exec()){
@@ -121,6 +128,12 @@ void storescene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
                  return ;
              }
          }
+		 storehouse & kk = this->house->house;//增添了对house的碰撞检测
+         if (curItem->collidesWithItem(kk.figure)){
+				delete curItem;
+				event->ignore();
+				return ;
+			}
          housedialog dialog(curItem);
          if (dialog.exec()){
              //qDebug();

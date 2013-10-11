@@ -5,7 +5,7 @@
 #define __LCC__
 #endif
 
-#include <mysql.h>
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,12 +13,13 @@
 #include <vector>
 #include <string>
 #include <QString>
+#include <mysql.h>
 //#include <QDebug>
 
 class DBMS
 {
 public:
-    DBMS();
+	DBMS();
     ~DBMS();
     int initialize_sql();
     int connect_sql();
@@ -26,10 +27,12 @@ public:
     int end_server_sql();
     int query(char *sqlcmd);
     int errorCode;
+
 protected:
     MYSQL_RES *mysql_result;
     MYSQL_ROW mysql_row;
     MYSQL mysql_conn;
+	MYSQL * flag;
 private:
     //int errorCode;
 };

@@ -16,14 +16,14 @@ public:
     ~housedialog();
     storehouse now;
     void accept();
-private slots:
-
+	void reject();
 protected:
     Ui::housedialog *ui;
 private slots:
-    void onAccepted();
+    bool onAccepted();
     void on_housedialog_accepted();
     void on_buttonBox_accepted();
+//	void onRejected();
 };
 
 #endif // HOUSEDIALOG_H

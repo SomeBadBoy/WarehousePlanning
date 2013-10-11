@@ -1,8 +1,10 @@
 #include "dbms.h"
+#include <qmessagebox.h>
 extern char username[20],password[20],dbname[20];
 DBMS::DBMS(){
     this->initialize_sql();
     this->connect_sql();
+	
 }
 
 DBMS::~DBMS(){
@@ -14,8 +16,16 @@ int DBMS::initialize_sql(){
 }
 
 int DBMS::connect_sql(){
-	return mysql_real_connect(&mysql_conn, "localhost", username, password,
-			dbname, MYSQL_PORT, NULL, 0)?0:1;
+	flag = mysql_real_connect(&mysql_conn, "localhost", username, password,
+			dbname, MYSQL_PORT, NULL, 0);
+	if ( !flag )//修复了未正确连接数据库也会打开软件的BUG
+	{
+		QMessageBox::about(NULL,"error","Failed to connect to mysql!");
+		exit(-2);
+//	return mysql_real_connect(&mysql_conn, "localhost", username, password,
+//			dbname, MYSQL_PORT, NULL, 0)?0:1;
+	}
+	return 0;
 }
 
 int DBMS::disconnet_sql(){

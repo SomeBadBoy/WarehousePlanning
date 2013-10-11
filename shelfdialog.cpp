@@ -1,6 +1,6 @@
 #include "shelfdialog.h"
 #include "ui_shelfdialog.h"
-
+#include <qmessagebox.h>
 
 shelfdialog::shelfdialog(QGraphicsRectItem *curItem ,QWidget *parent) :
     QDialog(parent),
@@ -16,15 +16,20 @@ shelfdialog::~shelfdialog(){
 
 void shelfdialog::accept()
 {
-    onAccepted();
-    QDialog::accept();
+    if( onAccepted() )
+		QDialog::accept();
 }
 
-void shelfdialog::onAccepted()
+bool shelfdialog::onAccepted()
 {
     now.name=ui->nameEdit->text();
     now.y=ui->xEdit->text().toInt();
     now.z=ui->yEdit->text().toInt();
+	if( ui->xEdit->text().toInt() <=0 || ui->yEdit->text().toInt() <= 0 )//判断是否有非法输入
+	{
+		QMessageBox::about(NULL, "Warning", "Exist <font color = 'red'> ILLEGAL </font>input, please input again!" );
+		return false;
+	}
 
     switch (ui->typeBox->currentIndex()){
     case (0):
@@ -53,5 +58,5 @@ void shelfdialog::onAccepted()
         break;
     }
     now.description=ui->desEdit->document()->toPlainText();
-
+	return true;
 }

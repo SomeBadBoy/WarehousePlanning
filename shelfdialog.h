@@ -21,7 +21,7 @@ public slots:
 protected:
     Ui::shelfdialog *ui;
 private slots:
-    void onAccepted();
+    bool onAccepted();
 };
 
 #endif // SHELFDIALOG_H
